@@ -1,0 +1,15 @@
+# Sistem de Gestiune a Incidentelor și Intervențiilor
+
+Acest proiect implementează un sistem pentru managementul incidentelor și echipajelor de intervenție, utilizând structuri de date personalizate pentru o procesare eficientă a comenzilor.
+
+## Structuri de Date și Funcții Utilitare
+* La începutul codului sunt definite toate structurile necesare, urmate de funcții de creare și de adăugare pentru incidente și intervenții.
+* Sunt implementate structuri de tip coadă pentru gestionarea incidentelor și a echipajelor, dar și o structură de tip stivă utilizată pentru comanda `UNDO`.
+* Pentru operațiile pe cozi au fost create funcții dedicate de adăugare (inserare în coadă), distincte de funcțiile care adaugă elemente în listele standard.
+
+## Implementarea Comenzilor Principale
+
+* **ADD (incident)**: Citește datele necesare incidentului, descrierea fiind procesată cu ajutorul unui element temporar și al unui contor. După citire, se alocă un element specific cu aceste informații și se folosește funcția de adăugare în listă. În funcție de prioritate, incidentul este introdus și în coada corespunzătoare prin funcția dedicată cozilor.
+* **DISPATCH**: Caută un echipaj disponibil și un incident, incidentele fiind preluate în funcție de gravitatea lor. Dacă ambele sunt găsite, se modifică disponibilitatea echipajului și statusul incidentului. Acestea sunt eliberate și mutate în stivă sub forma unei intervenții, fiind păstrate acolo în eventualitatea unei comenzi `UNDO`.
+* **UNDO**: Caută în stivă o intervenție care are statusul „intervened”. Nu se folosește direct vârful stivei (top), deoarece este posibil ca acea intervenție să fi fost deja rezolvată, caz în care operația nu ar mai avea sens. După ce este găsită, intervenția este scoasă din stivă, legăturile dintre vecini sunt refăcute, iar echipajul și incidentul sunt reintroduse la locurile lor, revenind la setările inițiale de status și disponibilitate. Ca excepție, atunci când incidentul este reintrodus în coadă, el nu este plasat la final, ci este adăugat direct pe prima poziție (în față de tot).
+* **Restul comenzilor**: Celelalte comenzi implementate se axează în principal pe funcționalități de căutare și afișare a datelor din sistem.
